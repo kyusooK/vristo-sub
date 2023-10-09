@@ -24,7 +24,7 @@
 
 <script>
 
-import BaseEntity from './components/base-ui/BaseEntity.vue'
+import BaseEntity from '../base-ui/BaseEntity.vue'
 
 export default {
     name: 'Company',

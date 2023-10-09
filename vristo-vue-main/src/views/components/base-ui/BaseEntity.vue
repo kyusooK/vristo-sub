@@ -30,8 +30,8 @@ export default {
         };
     },
     async created() {
+        this.newValue = this.modelValue
         this.repository = new BaseRepository(axios, this.path);
-        this.value = this.modelValue
     },
     methods: {
         selectFile() {

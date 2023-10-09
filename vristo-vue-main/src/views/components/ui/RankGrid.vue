@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import BaseGrid from './components/base-ui/BaseGrid.vue'
+import BaseGrid from '../base-ui/BaseGrid.vue'
 import Rank from './Rank.vue';
 
 export default {

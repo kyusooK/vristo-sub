@@ -1,30 +1,23 @@
 <template>
-
     <div>
-        <div class="detail-title">
-        Payment
+        <BasePicker v-if="editMode" searchApiPath="ranks" searchParameterName="id"  idField="id" nameField="id" path="ranks" label="RankId" v-model="value" @selected="pick" :editMode="editMode" />
+        <div v-else style="height:100%">
+            <span>{{ value && value.name ? value.name : '' }}</span>
         </div>
-        <v-col>
-            <String label="PaymentType" v-model="value.paymentType" :editMode="editMode"/>
-            <Number label="Amount" v-model="value.amount" :editMode="editMode"/>
-        </v-col>
-
-        <v-card-actions v-if="inList">
-            <slot name="actions"></slot>
-        </v-card-actions>
     </div>
+
 </template>
 
 <script>
-import BaseEntity from './base-ui/BaseEntity'
+import BaseEntity from '../base-ui/BaseEntity.vue'
 
 export default {
-    name: 'Payment',
+    name: 'RankId',
     mixins:[BaseEntity],
     components:{
     },
     data: () => ({
-        path: '',
+        path: 'ranks',
     }),
     props: {
     },

@@ -2,16 +2,9 @@
     <div style="max-height:80vh;">
         <!-- Recent Transactions -->
         <div class="panel">
-            <MyComponent v-model="newValue"></MyComponent>
             <div class="gs-bundle-of-buttons" style="max-height:10vh;">
                 <v-btn @click="addNewRow" @class="contrast-primary-text" small color="primary">
                     <v-icon small>mdi-plus-circle-outline</v-icon>등록
-                </v-btn>
-                <v-btn  @click="editSelectedRow" class="contrast-primary-text" small color="primary" >
-                    <v-icon small>mdi-pencil</v-icon>수정
-                </v-btn>
-                <v-btn @click="deleteSelectedRows" class="contrast-primary-text" small color="primary">
-                    <v-icon small>mdi-minus-circle-outline</v-icon>삭제
                 </v-btn>
             </div>
             <div class="mb-5 text-lg font-bold">Recent Transactions</div>
@@ -20,21 +13,17 @@
                     <thead>
                         <tr >
                             <th class="ltr:rounded-l-md rtl:rounded-r-md">{{val}}</th>
-                            <th>name</th>
+                            <th>id</th>
                             <th>NAME</th>
-                            <th>AMOUNT</th>
-                            <th class="text-center ltr:rounded-r-md rtl:rounded-l-md">STATUS</th>
+                            <th>Rank</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="val in list" :key="val">
+                        <tr v-for="(val, idx) in value" :key="val">
+                            <td class="font-semibold">#{{ idx + 1 }}</td>
                             <td class="font-semibold">#{{val.name}}</td>
                             <td class="whitespace-nowrap">{{val.rankId}}</td>
                             <td class="whitespace-nowrap">{{val.file}}</td>
-                            <td>$1,358.75</td>
-                            <td class="text-center">
-                                <span class="badge bg-success/20 text-success rounded-full hover:top-0">Completed</span>
-                            </td>
                         </tr>
                     </tbody>
                 </v-table>
@@ -62,7 +51,7 @@
                     </v-toolbar>
                     <v-card-text>
                         <Company :offline="offline"
-                            :isNew="!itemToEdit"
+                            :isNew="value.idx"
                             :editMode="true"
                             v-model="newValue"
                         />
@@ -94,8 +83,7 @@
 </template>
 
 <script>
-import MyComponent from './components/MyComponent.vue'
-import BaseGrid from './components/base-ui/BaseGrid.vue'
+import BaseGrid from '../base-ui/BaseGrid.vue'
 import Company from './Company.vue';
 import Rank from './Rank.vue';
 
@@ -104,7 +92,6 @@ export default {
     mixins:[BaseGrid],
     components:{
         Company,
-        MyComponent,
         Rank
     },
     data: () => ({

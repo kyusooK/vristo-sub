@@ -22,7 +22,6 @@ export default {
         BaseSecurity
     ],
     async created(){
-        this.value = this.modelValue
         this.generateMenu();
     }, 
     methods:{
@@ -86,7 +85,9 @@ export default {
             this.openDialog = false;
         },
         async generateMenu(){
-            let menuGroupVal = await this.repository.find()
+            let menuGroupVal = await this.repository.find(null, "menuGroups")
+            let menuVal = await this.repository.find(null, "menus")
+            console.log(menuVal)
 
             for(var i = 0; i < menuGroupVal.length; i++){
                 if(!menuGroupVal[i].parentId){
@@ -108,14 +109,27 @@ export default {
                         }
                     }
                 }
-                console.log(this.menu)
+                for(var i = 0; i < menuVal.length; i++){
+                    if(menuVal[i].parentId){
+                        for(var k = 0; k < this.menu.firstMenu[j].secondMenu.length; k ++){
+                            if(!this.menu.firstMenu[j].secondMenu[k].thirdMenu){
+                                this.menu.firstMenu[j].secondMenu[k].thirdMenu = []
+                            }
+                            this.menu.firstMenu[j].secondMenu[k].id = this.findId(this.menu.firstMenu[j].secondMenu[k])
+                            if(this.menu.firstMenu[j].secondMenu[k].id == menuVal[i].parentId.id){
+                                this.menu.firstMenu[j].secondMenu[k].thirdMenu.push(menuVal[i])
+                            }                   
+                        }
+                    }
+                }
             }
-            
+            console.log(this.menu)
         },
         findId(val){
             let id = val._links.self.href.split('/');
             return id.pop()
         }
+       
     },
 }
 </script>
