@@ -63,6 +63,14 @@ export default class BaseRepository{
         return await this.axios.put(this.axios.fixUrl(entity._links[link].href), params)
     }
 
+    async generate(pathVal) {
+        var temp = null;
+
+        temp = await this.axios.get(this.fixUrl(`/${pathVal}`));
+
+        return await this.afterProcess(temp.data._embedded[pathVal]);
+    }
+
     fixUrl(path) {
         if (!this.axios.defaults.baseURL && path.startsWith('/')) {
             return path;

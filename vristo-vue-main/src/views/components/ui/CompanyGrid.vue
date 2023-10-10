@@ -51,7 +51,7 @@
                     </v-toolbar>
                     <v-card-text>
                         <Company :offline="offline"
-                            :isNew="value.idx"
+                            :isNew="!value.idx"
                             :editMode="true"
                             v-model="newValue"
                         />

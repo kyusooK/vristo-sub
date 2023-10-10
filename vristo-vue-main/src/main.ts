@@ -5,6 +5,7 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import axios from 'axios';
+import { Icon } from '@iconify/vue';
 
 axios.defaults.baseURL = ''
 
@@ -89,5 +90,7 @@ app.component('Popper', Popper);
 // json to excel
 import vue3JsonExcel from 'vue3-json-excel';
 app.use(vue3JsonExcel);
+
+app.component('Icon',Icon)
 
 app.mount('#app');

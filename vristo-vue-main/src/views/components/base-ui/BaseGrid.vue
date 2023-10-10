@@ -15,14 +15,14 @@ export default {
         selectedRow: null,
         path: 'path',
         repository: null,
-        menu:[]
+        menu: []
     }),
     mixins:[
         BaseEntity,
         BaseSecurity
     ],
     async created(){
-        this.generateMenu();
+        // this.value = this.search()
     }, 
     methods:{
         addNewRow() {
@@ -85,16 +85,15 @@ export default {
             this.openDialog = false;
         },
         async generateMenu(){
-            let menuGroupVal = await this.repository.find(null, "menuGroups")
-            let menuVal = await this.repository.find(null, "menus")
-            console.log(menuVal)
+            let menuVal = await this.repository.generate("menus")
+            let menuGroupVal = await this.repository.generate("menuGroups")
 
-            for(var i = 0; i < menuGroupVal.length; i++){
-                if(!menuGroupVal[i].parentId){
+            for(var i = 0; i < menuVal.length; i++){
+                if(!menuVal[i].parentId){
                     if(!this.menu.firstMenu){
                         this.menu.firstMenu = []
                     }
-                    this.menu.firstMenu.push(menuGroupVal[i])
+                    this.menu.firstMenu.push(menuVal[i])
                 }
             }
             for(var j = 0; j < this.menu.firstMenu.length; j++){
@@ -102,28 +101,28 @@ export default {
                     this.menu.firstMenu[j].secondMenu = []
                 }
                 this.menu.firstMenu[j].id = this.findId(this.menu.firstMenu[j])
-                for(var i = 0; i < menuGroupVal.length; i++){
-                    if(menuGroupVal[i].parentId && menuGroupVal[i].parentId.id){
-                        if(this.menu.firstMenu[j].id == menuGroupVal[i].parentId.id){
-                            this.menu.firstMenu[j].secondMenu.push(menuGroupVal[i])
+                for(var i = 0; i < menuVal.length; i++){
+                    if(menuVal[i].parentId && menuVal[i].parentId.id){
+                        if(this.menu.firstMenu[j].id == menuVal[i].parentId.id){
+                            this.menu.firstMenu[j].secondMenu.push(menuVal[i])
                         }
                     }
                 }
-                for(var i = 0; i < menuVal.length; i++){
-                    if(menuVal[i].parentId){
+                for(var i = 0; i < menuGroupVal.length; i++){
+                    if(menuGroupVal[i].parentId){
                         for(var k = 0; k < this.menu.firstMenu[j].secondMenu.length; k ++){
                             if(!this.menu.firstMenu[j].secondMenu[k].thirdMenu){
                                 this.menu.firstMenu[j].secondMenu[k].thirdMenu = []
                             }
                             this.menu.firstMenu[j].secondMenu[k].id = this.findId(this.menu.firstMenu[j].secondMenu[k])
-                            if(this.menu.firstMenu[j].secondMenu[k].id == menuVal[i].parentId.id){
-                                this.menu.firstMenu[j].secondMenu[k].thirdMenu.push(menuVal[i])
+                            if(this.menu.firstMenu[j].secondMenu[k].id == menuGroupVal[i].parentId.id){
+                                this.menu.firstMenu[j].secondMenu[k].thirdMenu.push(menuGroupVal[i])
                             }                   
                         }
                     }
                 }
             }
-            console.log(this.menu)
+            return this.menu
         },
         findId(val){
             let id = val._links.self.href.split('/');

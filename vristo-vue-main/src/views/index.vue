@@ -48,23 +48,19 @@
 </template>
 <script>
 import { ref, onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
-// import BaseGrid from '../components/base-ui/BaseGrid.vue';
 
 export default {
   name: 'App',
-//   mixins: [BaseGrid],
   data: () => ({
-    basicList: ref(false),
     basic: [
       { key: 'companies', name: 'Company', url: '/companies' },
       { key: 'ranks', name: 'Rank', url: '/ranks' },
     ],
-    useComponent: '',
-    drawer: ref(true),
+    useComponent: "",
+    drawer: true,
     components: {},
-    sideBar: ref(true),
-    urlPath: ref(null),
+    sideBar: true,
+    urlPath: null,
     menus: [
       {
         id: 'basic',
@@ -86,57 +82,42 @@ export default {
         link: '/finance',
       },
     ],
-    activeMenu: ref(null),
+    activeMenu: null,
   }),
 
-  setup() {
-    const router = useRouter();
+  async created() {
+    var path = document.location.href.split("#/")
+    this.urlPath = path[1];
+    },
 
-    const activeMenuItems = computed(() => {
-      const activeMenu = this.menus.find((menu) => menu.id === this.activeMenu.value);
-      return activeMenu ? activeMenu.items : [];
-    });
-
-    const changeMenu = (menuId) => {
-      this.activeMenu.value = this.activeMenu.value === menuId ? null : menuId;
-    };
-
-    const changePath = (event) => {
-      let targetUrl = event.currentTarget.getAttribute('data-to');
-      router.push(targetUrl);
-    };
-
-    const openSideBar = () => {
-      this.sideBar.value = !this.sideBar.value;
-    };
-
-    const changeUrl = () => {
-      var path = document.location.href.split('#/');
-      this.urlPath.value = path[1];
-    };
-
-    const goHome = () => {
-      this.urlPath.value = null;
-    };
-
-    const openBasicList = () => {
-      this.basicList.value = !this.basicList.value;
-    };
-
-    onMounted(async () => {
-      await router.isReady(); // Wait for the router to be ready before accessing it
-      changeUrl();
-    });
-
-    return {
-      activeMenuItems,
-      changeMenu,
-      changePath,
-      openSideBar,
-      changeUrl,
-      goHome,
-      openBasicList,
-    };
+  mounted() {
+    var me = this;
+    me.components = this.$ManagerLists;
   },
+  computed: {
+      activeMenuItems() {
+        const activeMenu = this.menus.find(menu => menu.id === this.activeMenu);
+        return activeMenu ? activeMenu.items : [];
+      }
+  },
+  methods: {
+    changeMenu(menuId) {
+      this.activeMenu = this.activeMenu === menuId ? null : menuId;
+    },
+    changePath(event) {
+      let targetUrl = event.currentTarget.getAttribute('data-to');
+      this.$router.push(targetUrl);
+    },
+    openSideBar(){
+      this.sideBar = !this.sideBar
+    },
+    changeUrl() {
+      var path = document.location.href.split("#/")
+      this.urlPath = path[1];
+    },
+    goHome() {
+      this.urlPath = null;
+    },
+  }
 };
 </script>
