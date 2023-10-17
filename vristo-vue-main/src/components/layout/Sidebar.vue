@@ -1,8 +1,7 @@
 <template>
     <nav class="sidebar fixed min-h-screen h-full top-0 bottom-0 w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] z-50 transition-all duration-300">
         <v-list v-model:opened="open">
-            <v-list-item  title="무른모" to="/" @click="goHome()">
-            </v-list-item>
+            <v-list-item  title="Home" to="/" @click="goHome()"></v-list-item>
             <perfect-scrollbar
                 :options="{
                     swipeEasing: true,
@@ -21,12 +20,12 @@
                         <template v-slot:activator="{ props }">
                             <v-list-item
                             v-bind="props"
-                            :title="secondMenu.name"
+                            :title="'- ' + secondMenu.name"
                             ></v-list-item>
                         </template>
                         <v-list-item
                             v-for="thirdMenu in secondMenu.thirdMenu"
-                            :title="thirdMenu.name"
+                            :title="'- ' +  thirdMenu.name"
                             :value="thirdMenu.name"
                             to="/companies"
                             @click="changeUrl()"
