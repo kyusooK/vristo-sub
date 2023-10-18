@@ -15,14 +15,14 @@
 </template>
 
 <script>
-import { ref, watch, computed, defineProps, defineEmits, onMounted } from 'vue';
 import BaseRepository from '../../repository/BaseRepository';
-import axios from 'axios';
-import _ from 'lodash';
+const axios = require('axios').default;
+
+var _ = require('lodash');
 
 export default {
     name: 'BasePicker',
-    components: {},
+    components:{},
     props: {
         value: [String, Object, Array, Number, Boolean],
         editMode: Boolean,
@@ -33,83 +33,75 @@ export default {
         searchApiPath: String,
         searchParameterName: String,
     },
-    setup(props, { emit }) {
-        const list = ref([]);
-        const selected = ref(null);
-        const referenceValue = ref(null);
-        const searchKeyword = ref(null);
-        const repository = ref(null);
+    data: () => ({
+        list: [],
+        selected: null,
+        referenceValue: null,
+        repository: null,
+        searchKeyword:null,
+    }),
+    async created() {
+        var me = this;
+        this.repository = new BaseRepository(axios, this.path)
 
-        onMounted(async () => {
-            repository.value = new BaseRepository(axios, props.path);
-
-            if (props.value && typeof props.value === 'object' && Object.values(props.value)[0]) {
-                const id = props.value[props.idField];
-                const tmpValue = await repository.value.findById(id);
-                if (tmpValue.data) {
-                    const val = tmpValue.data;
-                    referenceValue.value = val;
-                }
+        if(me.value && typeof me.value == "object" && Object.values(me.value)[0]) {
+            
+            var id = me.value[me.idField];
+            var tmpValue = await this.repository.findById(id)
+            if(tmpValue.data) {
+                var val = tmpValue.data
+                
+                me.referenceValue = val
             }
-
-            if (props.editMode) {
-                fillSelections();
-            }
-        });
-
-        watch(selected, _.debounce(async () => {
-        // Your debounced logic here
-        }, 500), { immediate: true });
-
-        watch(searchKeyword, _.debounce(async () => {
-            const temp = await searchItems();
-            list.value = temp;
-        }, 500), { deep: true });
-
-        const fillSelections = async () => {
-            list.value = await repository.value.find(null);
-        };
-
-        const select = (val) => {
-            referenceValue.value = val;
+        }
+        if(this.editMode){
+            this.fillSelections()
+        }
+    },
+    watch:{
+        "selected": {
+            handler: _.debounce(async function () {
+                
+            }, 500),
+            immediate: true 
+        },
+        "searchKeyword": {
+            deep: true,
+            handler: _.debounce (async function(){
+                var me = this;
+                var temp = null
+                let query = {
+                    apiPath: me.searchApiPath,
+                    parameters: {}
+                };
+                query.parameters[me.searchParameterName] = me.searchKeyword;
+                temp = await me.repository.find(query);
+                me.list = temp;
+            }, 500),
+        }
+    },
+    methods: {
+        async fillSelections(){
+            this.list = await this.repository.find(null);
+        },
+        select(val) {
+            this.referenceValue = val;
             if (val) {
-                const uriParts = val._links.self.href.split('/');
-                const id = uriParts.pop();
-                val[props.idField] = id;
-                const selectedValue = Object.assign({}, val);
-
-                emit('update:value', selectedValue);
-                emit('selected', selectedValue);
+                var uriParts = val._links.self.href.split('/');
+                var id = uriParts.pop();
+                val[this.idField] = id
+                val = Object.assign({}, val)
+                
+                this.$emit('input', val);
+                this.$emit('selected', val)
             } else {
-                emit('update:value', null);
-                emit('selected', null);
+                this.$emit('input', null);
+                this.$emit('selected', null)
             }
-        };
-
-        const searchItems = async () => {
-            const query = {
-                apiPath: props.searchApiPath,
-                parameters: {},
-            };
-            query.parameters[props.searchParameterName] = searchKeyword.value;
-
-            return await repository.value.find(query);
-        };
-
-        return {
-            list,
-            selected,
-            referenceValue,
-            searchKeyword,
-            repository,
-            fillSelections,
-            select,
-            searchItems,
-        };
+        },
     },
 };
 </script>
-
 <style>
 .my-combobox div {
     min-height: 24px !important;

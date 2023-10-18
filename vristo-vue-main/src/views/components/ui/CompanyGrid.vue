@@ -15,6 +15,7 @@
                             <th>id</th>
                             <th>NAME</th>
                             <th>Address</th>
+                            <th>Email</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -23,7 +24,9 @@
                             <td class="font-semibold">#{{ idx + 1 }}</td>
                             <td class="font-semibold">#{{val.name}}</td>
                             <td class="whitespace-nowrap">{{val.Address}}</td>
-                            <td class="whitespace-nowrap"></td>
+                            <td class="whitespace-nowrap">
+                                <Email :editMode="false" v-model="value.email"></Email>
+                            </td>
                             <td class="whitespace-nowrap">
                                 <Icon icon="mi:delete" @click="deleteRow(val)" />
                             </td>
@@ -90,13 +93,15 @@
 import BaseGrid from '../base-ui/BaseGrid.vue'
 import Company from './Company.vue';
 import Rank from './Rank.vue';
+import Email from '../vo/Email.vue'
 
 export default {
     name: 'companyGrid',
     mixins:[BaseGrid],
     components:{
         Company,
-        Rank
+        Rank,
+        Email
     },
     data: () => ({
         path: 'menus',

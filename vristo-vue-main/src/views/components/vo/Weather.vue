@@ -7,18 +7,18 @@
             Today's Weather
         </v-card-title>
 
-        <v-card-text v-if="value">
+        <v-card-text v-if="weather">
             <div v-if="editMode" style="margin-top:-20px;">
-                <v-text-field type="number" label="Degree" v-model="value.degree"/>
+                <v-text-field type="number" label="Degree" v-model="weather.degree"/>
             </div>
             <div v-if="editMode" style="margin-top:-20px;">
-                <v-text-field type="number" label="Precipitation" v-model="value.precipitation"/>
+                <v-text-field type="number" label="Precipitation" v-model="weather.precipitation"/>
             </div>
             <div v-if="editMode" style="margin-top:-20px;">
-                <v-text-field type="number" label="Humidity" v-model="value.humidity"/>
+                <v-text-field type="number" label="Humidity" v-model="weather.humidity"/>
             </div>
             <div v-if="editMode" style="margin-top:-20px;">
-                <v-text-field type="number" label="Wind" v-model="value.wind"/>
+                <v-text-field type="number" label="Wind" v-model="weather.wind"/>
             </div>
             <v-card
                 v-if="!editMode"
@@ -31,22 +31,22 @@
                     :src="weatherBg"
                 >
                     <div v-if="!editMode" style="font-size:70px; margin:25px 0 50px 20px;">
-                        <div v-if="value.precipitation<25">
+                        <div v-if="weather.precipitation<25">
                             <span style="color:gold" class="mdi mdi-white-balance-sunny"></span>
                         </div>
-                        <div v-else-if="25<=value.precipitation && value.precipitation<70">
+                        <div v-else-if="25<=weather.precipitation && weather.precipitation<70">
                             <span style="color:grey" class="mdi mdi-weather-cloudy"></span>
                         </div>
-                        <div v-else-if="70<=value.precipitation">
+                        <div v-else-if="70<=weather.precipitation">
                             <span style="color:navy" class="mdi mdi-weather-pouring"></span>
                         </div>
                     </div>
 
                     <div v-if="!editMode" style="font-size:25px; font-weight:500; margin-left:20px; color:white; margin-top: -15px;">
-                            온도 {{value.degree }}&nbsp;<v-icon x-large color="white">mdi-temperature-celsius</v-icon>&nbsp;&nbsp;
-                            풍속 {{value.wind }}km/h&nbsp;<v-icon x-large color="white">mdi-weather-windy-variant</v-icon><br>
-                            강수확률 {{value.precipitation }}%&nbsp;<v-icon x-large color="white">mdi-umbrella</v-icon>&nbsp;&nbsp;<br>
-                            습도 {{value.humidity }}%&nbsp;<v-icon x-large color="white">mdi-weather-rainy</v-icon>
+                            온도 {{weather.degree }}&nbsp;<v-icon x-large color="white">mdi-temperature-celsius</v-icon>&nbsp;&nbsp;
+                            풍속 {{weather.wind }}km/h&nbsp;<v-icon x-large color="white">mdi-weather-windy-variant</v-icon><br>
+                            강수확률 {{weather.precipitation }}%&nbsp;<v-icon x-large color="white">mdi-umbrella</v-icon>&nbsp;&nbsp;<br>
+                            습도 {{weather.humidity }}%&nbsp;<v-icon x-large color="white">mdi-weather-rainy</v-icon>
                     </div>
                 </v-img>
             </v-card>
@@ -59,33 +59,34 @@
         name:"Weather",
         props: {
             editMode: Boolean,
-            value : Object,
+            modelValue : Object,
             label : String,
         },
         data: () => ({
+            weather:{},
             weatherBg: null,
         }),
         created(){
-            this.value = this.modelValue
-            if(!this.value) {
-                this.value = {
+            this.weather = this.modelValue
+            if(!this.weather) {
+                this.weather = {
                     'degree': 0,
                     'precipitation': 0,
                     'humidity': 0,
                     'wind': 0,
                 };
             }
-            if(this.value.precipitation<25) {
+            if(this.weather.precipitation<25) {
                 this.weatherBg = "https://user-images.githubusercontent.com/92732781/174241118-7832da47-bbb8-481c-a11a-737a6b986104.png";
-            } else if(this.value.precipitation>=25 && this.value.precipitation<70) {
+            } else if(this.weather.precipitation>=25 && this.weather.precipitation<70) {
                 this.weatherBg = "https://user-images.githubusercontent.com/92732781/174242976-3f6d5bda-7bcb-404b-a299-84961e2f0c54.png";
-            } else if(this.value.precipitation>=70) {
+            } else if(this.weather.precipitation>=70) {
                 this.weatherBg = "https://user-images.githubusercontent.com/92732781/174243446-886452db-083a-4882-b02e-efd577ce17f6.png";
             }
 
         },
         watch: {
-            value(newVal) {
+            weather(newVal) {
                 this.$emit('update:modelValue', newVal);
             },
         },

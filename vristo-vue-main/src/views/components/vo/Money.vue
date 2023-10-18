@@ -3,12 +3,12 @@
         <v-card-title v-if="editMode">
             {{label}}
         </v-card-title>
-        <v-card-text v-if="value">
+        <v-card-text v-if="money">
             <div v-if="editMode" style="margin-top:-20px;">
-                <v-text-field type="number" label="Amount" v-model="value.amount"/>
+                <v-text-field type="number" label="Amount" v-model="money.amount"/>
             </div>
             <div v-if="editMode" style="margin-top:-20px;">
-                <v-text-field label="Currency" v-model="value.currency"/>
+                <v-text-field label="Currency" v-model="money.currency"/>
             </div>
             <div v-else>
                 <v-card
@@ -18,7 +18,7 @@
                     min-width="200"
                     max-width="400"
                     style="padding:10px 15px 10px 15px; font-weight:500; font-size:20px; text-align:center;"> 
-                    {{value.amount}} {{value.currency}} 
+                    {{money.amount}} {{money.currency}} 
                 </v-card>
             </div>
         </v-card-text>
@@ -30,22 +30,25 @@
         name:"Money",
         props: {
             editMode: Boolean,
-            value : Object,
+            modelValue : Object,
             label : String,
         },
+        data: () => ({
+            money:{}
+        }),
         created(){
-            this.value = this.modelValue
-            if(!this.value) {
-                this.value = {
+            this.money = this.modelValue
+            if(!this.money) {
+                this.money = {
                     'amount': 0,
                     'currency': '',
                 };
             }
 
-            this.value.amount = this.value.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            this.money.amount = this.money.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
         watch: {
-            value(newVal) {
+            money(newVal) {
                 this.$emit('update:modelValue', newVal);
             },
         },

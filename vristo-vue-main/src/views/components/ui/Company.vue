@@ -1,7 +1,7 @@
 <template>
     <div>
         <String label="Name" v-model="value.name" :editMode="editMode"/>
-        <!-- <Address offline label="Address" v-model="value.address" :editMode="editMode" @change="change"/> -->
+        <Email label="Email" v-model="value.email" :editMode="editMode"/>
        
         <v-divider class="border-opacity-100 my-divider"></v-divider>
         <v-layout row justify-end>
@@ -18,17 +18,17 @@
 
 
 <script>
-// import Address from '../vo/Address.vue'
 import String from '../primitives/String.vue'
 import BaseEntity from '../base-ui/BaseEntity.vue'
+import Email from '../vo/Email.vue';
 
 export default {
     name: 'Company',
     mixins:[BaseEntity],
     components:{
-        String,
-        // Address
-    },
+    String,
+    Email
+},
     data: () => ({
         path: "menus"
     }),
