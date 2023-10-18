@@ -29,6 +29,7 @@
             label : String,
         },
         created(){
+            this.value = this.modelValue
             if(!this.value) {
                 this.value = {
                     'paymentType': '',
@@ -38,7 +39,7 @@
         },
         watch: {
             value(newVal) {
-                this.$emit('input', newVal);
+                this.$emit('update:modelValue', newVal);
             },
         },
     }

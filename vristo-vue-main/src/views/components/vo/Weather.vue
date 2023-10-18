@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div v-if="!editMode" style="font-size:25px; font-weight:500; margin-left:20px; color:white; margin-top: -15px;"">
+                    <div v-if="!editMode" style="font-size:25px; font-weight:500; margin-left:20px; color:white; margin-top: -15px;">
                             온도 {{value.degree }}&nbsp;<v-icon x-large color="white">mdi-temperature-celsius</v-icon>&nbsp;&nbsp;
                             풍속 {{value.wind }}km/h&nbsp;<v-icon x-large color="white">mdi-weather-windy-variant</v-icon><br>
                             강수확률 {{value.precipitation }}%&nbsp;<v-icon x-large color="white">mdi-umbrella</v-icon>&nbsp;&nbsp;<br>
@@ -66,6 +66,7 @@
             weatherBg: null,
         }),
         created(){
+            this.value = this.modelValue
             if(!this.value) {
                 this.value = {
                     'degree': 0,
@@ -85,7 +86,7 @@
         },
         watch: {
             value(newVal) {
-                this.$emit('input', newVal);
+                this.$emit('update:modelValue', newVal);
             },
         },
     }

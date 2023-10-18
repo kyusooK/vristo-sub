@@ -32,6 +32,7 @@
             label : String, 
         },
         created(){
+            this.value = this.modelValue
             if(!this.value) {
                 this.value = {
                     'imgName': '',

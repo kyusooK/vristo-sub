@@ -34,7 +34,11 @@
             value : Object,
             label : String,
         },
+        data: () => ({
+            value:{}
+        }),
         created(){
+            this.value = this.modelValue
             if(!this.value) {
                 this.value = {
                     'address': '',
@@ -45,7 +49,7 @@
         },
         watch: {
             value(newVal) {
-                this.$emit('input', newVal);
+                this.$emit('update:modelValue', newVal);
             },
         },
     }

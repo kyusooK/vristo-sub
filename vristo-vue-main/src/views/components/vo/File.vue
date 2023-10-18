@@ -51,7 +51,7 @@
                         "file": result,
                         "fileName": me.value.fileName
                     }
-                    me.$emit("input", newValue);
+                    me.$emit("update:modelValue", newValue);
                 };
                 reader.readAsDataURL( this.file );
                 this.value.fileName = this.file.name

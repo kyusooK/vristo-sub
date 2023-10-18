@@ -62,7 +62,7 @@
         name:"Address",
         props: {
             editMode: Boolean,
-            value : Object,
+            modelValue : Object,
             label : String,
         },
         data: () => ({
@@ -70,6 +70,7 @@
             longitude: 126.9784147,
         }),
         created(){
+            this.value = this.modelValue;
             if(!this.value) {
                 this.value = {
                     'street': '',
@@ -129,7 +130,7 @@
         },
         watch: {
             value(newVal) {
-                this.$emit('input', newVal);
+                this.$emit('update:modelValue', newVal);
             },
         },
     }

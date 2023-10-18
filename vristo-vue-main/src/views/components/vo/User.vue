@@ -137,6 +137,7 @@
             avatarMode : false,
         }),
         created(){
+            this.value = this.modelValue
             if(!this.value) {
                 this.value = {
                     'userId': '',
@@ -150,7 +151,7 @@
         },
         watch: {
             value(newVal) {
-                this.$emit('input', newVal);
+                this.$emit('update:modelValue', newVal);
             },
         },
         methods: {
