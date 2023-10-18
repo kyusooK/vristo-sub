@@ -19,11 +19,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(val, idx) in value" :key="val">
+                        <tr v-for="(val, idx) in value" :key="val" @click="changeSelectedRow(val)">
                             <td class="font-semibold">#{{ idx + 1 }}</td>
                             <td class="font-semibold">#{{val.name}}</td>
                             <td class="whitespace-nowrap">{{val.Address}}</td>
                             <td class="whitespace-nowrap"></td>
+                            <td class="whitespace-nowrap">
+                                <Icon icon="mi:delete" @click="deleteRow(val)" />
+                            </td>
                         </tr>
                     </tbody>
                 </v-table>

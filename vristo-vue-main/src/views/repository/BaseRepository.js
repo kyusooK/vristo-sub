@@ -56,11 +56,13 @@ export default class BaseRepository{
     }
 
     async delete(entity){
-        await this.axios.delete(this.axios.fixUrl(entity._links.self.href))
+        await this.axios.delete(this.fixUrl(entity._links.self.href))
+
+        return await this.find(null)
     }
 
     async invoke(entity, link, params) {
-        return await this.axios.put(this.axios.fixUrl(entity._links[link].href), params)
+        return await this.axios.put(this.fixUrl(entity._links[link].href), params)
     }
 
     async generate(pathVal) {

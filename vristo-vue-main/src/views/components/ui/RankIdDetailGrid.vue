@@ -3,23 +3,44 @@
         <div class="label-title">{{label}}</div>
         <v-btn v-if="editMode" @click="append()">추가</v-btn>
         <v-btn v-if="editMode" @click="detailDeleteRow()">삭제</v-btn>
-        <wj-flex-grid
-            ref="flexGridDetails"
-            :key="value.length"
-            :autoGenerateColumns="false"
-            :allowAddNew="false"
-            :allowDelete="true"
-            :allowPinning="'SingleColumn'"
-            :newRowAtTop="false"
-            :showMarquee="true"
-            :selectionMode="'MultiRange'"
-            :validateEdits="false"
-            :itemsSource="value"
-            :initialized="flexDetailsInitialized"
-            style="margin-top:10px; max-height:65vh;"
-        >
-            <wj-flex-grid-cell-template cellType="RowHeader" v-slot="cell">{{cell.row.index + 1}}</wj-flex-grid-cell-template>
-        </wj-flex-grid>
+        <div class="table-responsive">
+            <v-table v-if="!editMode">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>NAME</th>
+                        <th>Address</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(detailVal, idx) in selectedRow" :key="detailVal">
+                        <td class="font-semibold">#{{ idx + 1 }}</td>
+                        <td class="font-semibold">#{{detailVal.name}}</td>
+                        <td class="whitespace-nowrap">{{detailVal.Address}}</td>
+                        <td class="whitespace-nowrap"></td>
+                    </tr>
+                </tbody>
+            </v-table>
+            <v-table v-else>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>NAME</th>
+                        <th>Address</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(detailVal, idx) in selectedRow" :key="detailVal">
+                        <td class="font-semibold">#{{ idx + 1 }}</td>
+                        <td class="font-semibold">#{{detailVal.name}}</td>
+                        <td class="whitespace-nowrap">{{detailVal.Address}}</td>
+                        <td class="whitespace-nowrap"></td>
+                    </tr>
+                </tbody>
+            </v-table>
+        </div>
     </div>
 </template>
 

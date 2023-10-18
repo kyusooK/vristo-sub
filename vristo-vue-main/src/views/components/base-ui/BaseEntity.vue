@@ -67,7 +67,7 @@ export default {
                 if(!this.offline) {
                     
                     temp = await this.repository.save(this.value, this.isNew)
-                    
+                    this.value = temp
                 }
                 if(this.value!=null) {
                     for(var k in temp.data) this.value[k]=temp.data[k];
@@ -76,7 +76,7 @@ export default {
                 }
 
                 this.$emit('update:editMode', false);
-                this.$emit('input', this.value);
+                this.$emit('update:modelValue', this.value);
 
                 if (this.isNew) {
                     this.$emit('add', this.value);
@@ -88,18 +88,18 @@ export default {
                 console.log(e)
             }
         },
-        async delete() {
+        async deleteRow(selectedRow) {
             try {
+                var temp = null
                 if (!this.offline) {
-                    await this.repository.delete(this.value)
+                    temp = await this.repository.delete(selectedRow)
+                    this.value = temp
                 }
-                this.editMode = false;
-                this.isDeleted = true;
 
-                this.$emit('input', this.value);
+                this.$emit('update:modelValue', this.value);
                 this.$emit('delete', this.value);
             } catch(e) {
-                this.$EventBus.$emit('show-error', e);
+                console.log(e)
             }
         },
         change() {

@@ -15,6 +15,7 @@ export default {
         path: 'path',
         repository: null,
         menu: [],
+        
     }),
     mixins:[
         BaseEntity,
@@ -125,7 +126,11 @@ export default {
         findId(val){
             let id = val._links.self.href.split('/');
             return id.pop()
-        }
+        },
+        changeSelectedRow(val){
+            this.selectedRow = val
+        },
+        
        
     },
 }
