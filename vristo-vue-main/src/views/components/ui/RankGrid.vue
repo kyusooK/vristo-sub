@@ -104,7 +104,7 @@ export default {
         Rank,
     },
     data: () => ({
-        path: 'menus',
+        path: 'menuGroups',
     }),
 }
 </script>

@@ -11,18 +11,17 @@ export default {
         flex: null,
         tick : true,
         openDialog : false,
-        itemToEdit: null,
         selectedRow: null,
         path: 'path',
         repository: null,
-        menu: []
+        menu: [],
     }),
     mixins:[
         BaseEntity,
         BaseSecurity
     ],
     async created(){
-        // this.value = this.search()
+        this.value = this.search()
     }, 
     methods:{
         addNewRow() {
@@ -39,8 +38,7 @@ export default {
             const newItem = { ...this.newValue};
 
             this.value.push(newItem);
-            this.$emit('input', this.value);
-
+            this.$emit('update:modelValue', this.value);
             this.$nextTick(() => {
                 this.tick = true;
             });

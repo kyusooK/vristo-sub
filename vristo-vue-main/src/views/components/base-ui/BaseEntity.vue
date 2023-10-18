@@ -26,7 +26,6 @@ export default {
             updateCompanyDiagram: false,
             openDialog : false,
             value: {},
-            newValue: {}
         };
     },
     async created() {
@@ -64,7 +63,7 @@ export default {
         async save() {
             try {
                 var temp = null;
-
+                console.log(this.newValue)
                 if(!this.offline) {
                     
                     temp = await this.repository.save(this.value, this.isNew)
@@ -76,7 +75,7 @@ export default {
                     this.value = temp.data;
                 }
 
-                this.editMode = false;
+                this.$emit('update:editMode', false);
                 this.$emit('input', this.value);
 
                 if (this.isNew) {
@@ -85,9 +84,8 @@ export default {
                     this.$emit('edit', this.value);
                 }
 
-
             } catch(e) {
-                this.$EventBus.$emit('show-error', e);
+                console.log(e)
             }
         },
         async delete() {

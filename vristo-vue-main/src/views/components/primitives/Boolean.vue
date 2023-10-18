@@ -23,7 +23,7 @@
         components:{
         },
         props: {
-            value:{
+            modelValue:{
                 type: Boolean,
                 default: false
             },

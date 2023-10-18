@@ -27,7 +27,7 @@ export default {
     },
     
     data: () => ({
-        path: "ranks"
+        path: "menuGroups"
     }),
     created(){
     },

@@ -1,12 +1,7 @@
 <template>
     <div>
         <String label="Name" v-model="value.name" :editMode="editMode"/>
-        <RankId offline label="RankId" v-model="value.rankId" :editMode="editMode" @change="change"/>
-        <File offline label="File" v-model="value.file" :editMode="editMode" @change="change"/>
-        <Payment offline label="Payment" v-model="value.payment" :editMode="editMode" @change="change"/>
-        <Email offline label="Email" v-model="value.email" :editMode="editMode" @change="change"/>
-        <Money offline label="Money" v-model="value.money" :editMode="editMode" @change="change"/>
-        <Address offline label="Address" v-model="value.address" :editMode="editMode" @change="change"/>
+        <!-- <Address offline label="Address" v-model="value.address" :editMode="editMode" @change="change"/> -->
        
         <v-divider class="border-opacity-100 my-divider"></v-divider>
         <v-layout row justify-end>
@@ -23,16 +18,19 @@
 
 
 <script>
-
+// import Address from '../vo/Address.vue'
+import String from '../primitives/String.vue'
 import BaseEntity from '../base-ui/BaseEntity.vue'
 
 export default {
     name: 'Company',
     mixins:[BaseEntity],
     components:{
+        String,
+        // Address
     },
     data: () => ({
-        path: "menuGroups"
+        path: "menus"
     }),
 }
 </script>

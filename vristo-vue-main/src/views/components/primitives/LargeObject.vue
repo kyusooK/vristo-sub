@@ -44,7 +44,7 @@
             file: null,
         }),
         props: {
-            value: [String, Number, Object],
+            modelValue: [String, Number, Object],
             editMode: Boolean,
             label: String
         },
@@ -62,7 +62,7 @@
                 reader.onload = function () {
                     var result = reader.result;
                     this.file = result;
-                    me.$emit("input", result);
+                    me.$emit("update:modelValue", result);
                 };
                 reader.readAsDataURL( this.file );
             },

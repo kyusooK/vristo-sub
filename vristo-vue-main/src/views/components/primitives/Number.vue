@@ -20,7 +20,7 @@
     export default {
         name: 'Number',
         props: {
-            value:{
+            modelValue:{
                 type: Number,
                 default: 0
             },
@@ -29,7 +29,7 @@
         },
         methods:{
             change(){
-                this.$emit("input", Number(this.value));
+                this.$emit("update:modelValue", Number(this.value));
             }
         }
     }

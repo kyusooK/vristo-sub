@@ -47,7 +47,7 @@
         components:{
         },
         props: {
-            value: Object,
+            modelValue: Object,
             editMode: Boolean,
         },
         data: () => ({
@@ -55,7 +55,7 @@
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         }),
         created() {
-            if(!this.value) {
+            if(!this.modelValue) {
                 this.value = this.date;
             }
         },
@@ -66,7 +66,7 @@
         },
         methods:{
             change(){
-                this.$emit("input", this.value);
+                this.$emit("update:modelValue", this.value);
             }
         }
     }

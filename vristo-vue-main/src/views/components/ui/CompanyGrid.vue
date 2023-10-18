@@ -4,7 +4,7 @@
         <div class="panel">
             <div class="gs-bundle-of-buttons" style="max-height:10vh;">
                 <v-btn @click="addNewRow" @class="contrast-primary-text" small color="primary">
-                    <v-icon small>mdi-plus-circle-outline</v-icon>등록
+                    <v-icon small></v-icon>등록
                 </v-btn>
             </div>
             <div class="mb-5 text-lg font-bold">Recent Transactions</div>
@@ -12,18 +12,18 @@
                 <v-table>
                     <thead>
                         <tr >
-                            <th class="ltr:rounded-l-md rtl:rounded-r-md">{{val}}</th>
                             <th>id</th>
                             <th>NAME</th>
-                            <th>Rank</th>
+                            <th>Address</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(val, idx) in value" :key="val">
                             <td class="font-semibold">#{{ idx + 1 }}</td>
                             <td class="font-semibold">#{{val.name}}</td>
-                            <td class="whitespace-nowrap">{{val.rankId}}</td>
-                            <td class="whitespace-nowrap">{{val.file}}</td>
+                            <td class="whitespace-nowrap">{{val.Address}}</td>
+                            <td class="whitespace-nowrap"></td>
                         </tr>
                     </tbody>
                 </v-table>
@@ -54,6 +54,7 @@
                             :isNew="!value.idx"
                             :editMode="true"
                             v-model="newValue"
+                            @add="append"
                         />
                     </v-card-text>
                 </v-card>
@@ -95,7 +96,7 @@ export default {
         Rank
     },
     data: () => ({
-        path: 'menuGroups',
+        path: 'menus',
     }),
 }
 </script>

@@ -22,7 +22,7 @@
         components:{
         },
         props: {
-            value:{
+            modelValue:{
                 type: String,
                 default: null /// TODO '' is not null !
             },
@@ -31,8 +31,8 @@
         },
         methods:{
             change(){
-                if(this.value==='') this.value = null  //TODO '' is not null
-                this.$emit("input", this.value);
+                if(this.modelValue===null) this.value = null  //TODO '' is not null
+                this.$emit("update:modelValue", this.value);
             }
         }
     }
